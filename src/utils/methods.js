@@ -1,26 +1,11 @@
 export const getTracks = (item) => {
-    var date = new Date();
-    var day = date.getDay()
-    if(day == 1){
-        return item[0]
+    const date = new Date();
+    const day = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+    // Map Monday..Sunday -> 0..6
+    const mappedIndex = (day + 6) % 7;
+    if (Array.isArray(item) && item.length > mappedIndex) {
+        return item[mappedIndex];
     }
-    if(day == 2){
-        return item[1]
-    }
-    if(day == 3){
-        return item[2]
-    }
-    if(day == 4){
-        return item[3]
-    }
-    if(day == 5){
-        return item[4]
-    }
-    if(day == 6){
-        return item[5]
-    }
-    if(day == 7){
-        return item[6]
-    }
+    return Array.isArray(item) && item.length > 0 ? item[0] : undefined;
 }
 

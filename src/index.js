@@ -24,7 +24,7 @@ export default class App extends Component {
 
   }
 
-  componendDidMount() {
+  componentDidMount() {
     SplashScreen.hide();
     this.requestUserPermission();
   }

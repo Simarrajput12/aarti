@@ -1,4 +1,3 @@
-import React from 'react';
 import { Linking } from 'react-native';
 
 export const openUrl = (url) => {
@@ -16,54 +15,49 @@ export const openUrl = (url) => {
 }
 
 export const openFacebookUrl = (USERNAME) => {
-    Linking.canOpenURL(USERNAME)
+    const webUrl = `https://facebook.com/${USERNAME}`;
+    // Use official fb scheme that deep-links to a webmodal if app is installed
+    const appUrl = `fb://facewebmodal/f?href=${webUrl}`;
+    Linking.canOpenURL(appUrl)
         .then(supported => {
-            if (!supported) {
-                console.log('Can\'t handle url: ' + USERNAME);
-                return Linking.openURL(`https://facebook.com/${USERNAME}`);
-            } else {
-                Linking.openURL(`facebook://user?screen_name=${USERNAME}`).catch(error => {
-                    Linking.openURL(`https://facebook.com/${USERNAME}`)
-                });
+            if (supported) {
+                return Linking.openURL(appUrl);
             }
+            return Linking.openURL(webUrl);
         })
         .catch(err => {
-            console.error('An error occurred', err)
+            console.error('An error occurred', err);
         });
 }
 
 export const openTwitterUrl = (USERNAME) => {
-    Linking.canOpenURL(USERNAME)
+    const appUrl = `twitter://user?screen_name=${USERNAME}`;
+    const webUrl = `https://twitter.com/${USERNAME}`;
+    Linking.canOpenURL(appUrl)
         .then(supported => {
-            if (!supported) {
-                console.log('Can\'t handle url: ' + USERNAME);
-                return Linking.openURL(`https://twitter.com/${USERNAME}`);
-            } else {
-                Linking.openURL(`twitter://user?screen_name=${USERNAME}`).catch(error => {
-                    Linking.openURL(`https://twitter.com/${USERNAME}`)
-                });
+            if (supported) {
+                return Linking.openURL(appUrl);
             }
+            return Linking.openURL(webUrl);
         })
         .catch(err => {
-            console.error('An error occurred', err)
+            console.error('An error occurred', err);
         });
 }
 
 
 
 export const openInstagramUrl = (USERNAME) => {
-    Linking.canOpenURL(USERNAME)
+    const appUrl = `instagram://user?username=${USERNAME}`;
+    const webUrl = `http://instagram.com/_u/${USERNAME}/`;
+    Linking.canOpenURL(appUrl)
         .then(supported => {
-            if (!supported) {
-                console.log('Can\'t handle url: ' + USERNAME);
-                return Linking.openURL(`http://instagram.com/_u/${USERNAME}/`);
-            } else {
-                return Linking.openURL(`instagram://user?username=${USERNAME}`).catch(error => {
-                    Linking.openURL(`http://instagram.com/_u/${USERNAME}/`);
-                });
+            if (supported) {
+                return Linking.openURL(appUrl);
             }
+            return Linking.openURL(webUrl);
         })
         .catch(err => {
-            console.error('An error occurred', USERNAME)
+            console.error('An error occurred', err);
         });
 }
